@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp QR Code - XIBS Session Technology</title>
+    <title>WhatsApp QR Code</title>
     <style>
-        /* ===== CSS Variables ===== */
+           /* ===== CSS Variables ===== */
         :root {
             /* Colors */
             --primary: #0066ff;
@@ -446,10 +446,9 @@
     </style>
 </head>
 <body>
-    <!-- Background Effects -->
+     <!-- Background Effects -->
     <div class="bg-animation"></div>
     <div class="cyber-grid"></div>
-    
     <div class="container">
         <div class="cyber-card">
             <!-- Logo Section -->
@@ -457,141 +456,48 @@
                 <div class="logo-ring"></div>
                 <div class="logo-icon">XIBS</div>
             </div>
-            
-            <!-- Title Section -->
+             <!-- Title Section -->
             <div class="card-header">
                 <h1 class="card-title">WhatsApp QR Code</h1>
                 <p class="card-subtitle">Secure Session Pairing</p>
                 <span class="system-tag">SESSION TECHNOLOGY</span>
             </div>
             
-            <!-- Status Message -->
-            <p id="status" class="status-loading">Loading QR code...</p>
-            
-            <!-- QR Code Image -->
-            <img id="qrImage" src="" alt="WhatsApp QR Code" />
-            
-            <!-- Instructions -->
-            <ol id="instructions"></ol>
-            
-            <!-- Refresh Button -->
-            <button class="btn refresh-btn" onclick="loadQRCode()" id="refreshBtn">
-                <i class="fas fa-sync-alt" style="margin-right: 8px;"></i> Refresh QR Code
-            </button>
-        </div>
-    </div>
+    <h1>Scan WhatsApp QR Code</h1>
+    <p id="status">Loading QR code...</p>
+    <img id="qrImage" src="" alt="QR Code" />
+    <ol id="instructions"></ol>
     
-    <!-- Footer -->
-    <div class="footer">
-        <div class="footer-links">
-            <a href="#" class="footer-link">Support</a>
-            <a href="#" class="footer-link">Privacy Policy</a>
-            <a href="#" class="footer-link">Terms of Service</a>
-        </div>
-        <p class="copyright">© 2023 XIBS Session Technology. All rights reserved.</p>
-    </div>
+    </div></div> </div></div></div>
 
     <script>
         async function loadQRCode() {
-            const status = document.getElementById('status');
-            const qrImg = document.getElementById('qrImage');
-            const instructions = document.getElementById('instructions');
-            const refreshBtn = document.getElementById('refreshBtn');
-            
-            // Set loading state
-            status.textContent = 'Loading QR code...';
-            status.className = 'status-loading';
-            qrImg.src = '';
-            instructions.innerHTML = '';
-            refreshBtn.disabled = true;
-            
             try {
                 const response = await fetch('/qr');
                 const data = await response.json();
 
                 if (data.qr) {
-                    // Update QR image
+                    const qrImg = document.getElementById('qrImage');
                     qrImg.src = data.qr;
-                    
-                    // Update instructions
-                    if (data.instructions && data.instructions.length > 0) {
-                        data.instructions.forEach(step => {
-                            const li = document.createElement('li');
-                            li.textContent = step;
-                            instructions.appendChild(li);
-                        });
-                    } else {
-                        // Default instructions
-                        const defaultInstructions = [
-                            'Open WhatsApp on your mobile device',
-                            'Tap on the three-dot menu (Settings)',
-                            'Select "Linked Devices"',
-                            'Tap on "Link a Device"',
-                            'Scan the QR code shown above',
-                            'Wait for authentication to complete'
-                        ];
-                        
-                        defaultInstructions.forEach(step => {
-                            const li = document.createElement('li');
-                            li.textContent = step;
-                            instructions.appendChild(li);
-                        });
-                    }
+                    const instructions = document.getElementById('instructions');
+                    instructions.innerHTML = '';
+                    data.instructions.forEach(step => {
+                        const li = document.createElement('li');
+                        li.textContent = step;
+                        instructions.appendChild(li);
+                    });
 
-                    // Update status
-                    status.textContent = data.message || 'QR code loaded successfully';
-                    status.className = 'status-success';
-                    
-                    // Add success animation to QR code
-                    setTimeout(() => {
-                        qrImg.style.transform = 'scale(1.05)';
-                        qrImg.style.borderColor = 'var(--success)';
-                        setTimeout(() => {
-                            qrImg.style.transform = 'scale(1)';
-                        }, 300);
-                    }, 100);
-                    
+                    document.getElementById('status').textContent = data.message;
                 } else {
-                    status.textContent = data.message || 'Failed to load QR code';
-                    status.className = 'status-error';
+                    document.getElementById('status').textContent = 'Failed to load QR code';
                 }
             } catch (err) {
-                console.error('Error fetching QR code:', err);
-                status.textContent = 'Error fetching QR code. Please try again.';
-                status.className = 'status-error';
-                
-                // Show error instructions
-                const errorInstructions = [
-                    'Check your internet connection',
-                    'Ensure the server is running',
-                    'Try refreshing the page',
-                    'Contact support if the issue persists'
-                ];
-                
-                errorInstructions.forEach(step => {
-                    const li = document.createElement('li');
-                    li.textContent = step;
-                    instructions.appendChild(li);
-                });
-            } finally {
-                refreshBtn.disabled = false;
+                console.error(err);
+                document.getElementById('status').textContent = 'Error fetching QR code';
             }
         }
 
-        // Initial load
         loadQRCode();
-        
-        // Auto-refresh every 30 seconds (optional)
-        let autoRefresh = setInterval(loadQRCode, 30000);
-        
-        // Clean up auto-refresh when page is hidden
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                clearInterval(autoRefresh);
-            } else {
-                autoRefresh = setInterval(loadQRCode, 30000);
-            }
-        });
     </script>
 </body>
 </html>

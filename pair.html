@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pair with Me - XIBS Session Technology</title>
+  <title>Pair with Me</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     /* ===== CSS Variables ===== */
@@ -474,74 +474,64 @@
   </style>
 </head>
 <body>
-  <!-- Background Effects -->
-  <div class="bg-animation"></div>
+     <div class="bg-animation"></div>
   <div class="cyber-grid"></div>
-  
   <div class="container">
-    <div class="box" id="box">
+    <div class="main">
+      <div class="box" id="box">
+        <div id="text">
+             <div class="box" id="box">
       <!-- Logo Section -->
       <div class="logo-container">
         <div class="logo-ring"></div>
         <div class="logo-icon">XIBS</div>
       </div>
-      
-      <!-- Title Section -->
-      <h1 class="card-title">Pair with Me</h1>
-      <p class="card-subtitle">Secure WhatsApp Pairing System</p>
-      <span class="system-tag">SESSION TECHNOLOGY</span>
-      
-      <div id="text">
-        <i class="fa fa-user"></i>
-        <h3 class="centered-text">© GlobalTechInfo</h3>
-        <h6>Enter your number with a country code</h6>
-        
-        <!-- Input Container -->
+          <i class="fa fa-user"></i>
+          <p>
+            <h3 class="centered-text">© GlobalTechInfo</h3>
+            <br>
+            <h6>Enter your number with a country code.</h6>
+                <!-- Input Container -->
         <div class="input-container">
           <input placeholder="923444844060" type="number" id="number" placeholder="Enter your phone number with a country code">
           <button class="btn" id="submit">Submit</button>
         </div>
-        
-        <a id="waiting-message" class="centered-text" style="display: none;">Processing your request...</a>
+            
+    <a id="waiting-message" class="centered-text" style="display: none;">Processing your request...</a>
         
         <main id="pair"></main>
       </div>
-      
-      <!-- Footer -->
-      <div class="footer">
-        <p>XIBS Session Technology 2023-TODAY</p>
-        <a href="#" class="support-link">Need Support?</a>
-        <p class="copyright">© 2023 XIBS Systems. All rights reserved.</p>
+                                                                   
       </div>
     </div>
   </div>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script>
     let a = document.getElementById("pair");
     let b = document.getElementById("submit");
     let c = document.getElementById("number");
     let box = document.getElementById("box");
-    let waitingMessage = document.getElementById("waiting-message");
 
     async function Copy() {
       let text = document.getElementById("copy").innerText;
       let obj = document.getElementById("copy");
       await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "✓ COPIED";
-      obj.style = "color:var(--success);font-weight:bold;border-color:var(--success)";
+      obj.innerText = "COPIED";
+      obj.style = "color:blue;font-weight:bold";
+      obj.size = "5";
       setTimeout(() => {
         obj.innerText = text;
-        obj.style = "color:var(--text-primary);font-weight:bold";
-      }, 1000);
+        obj.style = "color:black;font-weight-bold";
+        obj.size = "5";
+      }, 500);
     }
 
     b.addEventListener("click", async (e) => {
       e.preventDefault();
       if (!c.value) {
-        a.innerHTML = '<a style="color:var(--error);font-weight:bold">Please enter your WhatsApp number</a><br><br>';
+        a.innerHTML = '<a style="color:black;font-weight:bold">Enter your WhatsApp number with a country code</a><br><br>';
       } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:var(--error);font-weight:bold">Invalid number format</a><br><br>';
+        a.innerHTML = '<a style="color:black;font-weight:bold">Invalid number format</a><br><br>';
       } else {
         const bc = c.value.replace(/[^0-9]/g, "");
         let bb = "";
@@ -559,21 +549,11 @@
         });
         c.type = "text";
         c.value = "+" + bb;
-        c.style = "color:var(--text-primary);font-size:1.1rem;font-weight:600";
-        
-        // Show waiting message
-        a.innerHTML = '';
-        waitingMessage.style.display = 'block';
-        
-        try {
-          let { data } = await axios(`/code?number=${bc}`);
-          waitingMessage.style.display = 'none';
-          let code = data.code || "Service Unavailable";
-          a.innerHTML = '<font id="copy" onclick="Copy()" style="color:var(--primary);font-weight:bold;cursor:pointer;padding:0.5rem 1rem;border-radius:8px;background:rgba(0,102,255,0.1);border:1px solid var(--border);display:inline-block;">CODE: <span style="color:var(--text-primary);">' + code + '</span></font><br><br><br>';
-        } catch (error) {
-          waitingMessage.style.display = 'none';
-          a.innerHTML = '<a style="color:var(--error);font-weight:bold">Service temporarily unavailable. Please try again.</a><br><br>';
-        }
+        c.style = "color:black;font-size:20px";
+        a.innerHTML = '<a style="color:black;font-weight:bold">Please wait for some time</a><br><br>';
+        let { data } = await axios(`/code?number=${bc}`);
+        let code = data.code || "Service Unavailable";
+        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:black;font-weight:bold">' + code + '</span></font><br><br><br>';
       }
     });
   </script>
