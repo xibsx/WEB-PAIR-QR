@@ -10,19 +10,9 @@ import { upload } from './mega.js';
 const router = express.Router();
 
 const MESSAGE = `
-*SESSION GENERATED SUCCESSFULLY* ✅
-
-*Gɪᴠᴇ ᴀ ꜱᴛᴀʀ ᴛᴏ ʀᴇᴘᴏ* 🌟
-https://github.com/GlobalTechInfo/MEGA-MD
-
-*SUPPORT GROUP* 💭
-https://t.me/GlobalTechInfo
-https://whatsapp.com/channel/0029VagJIAr3bbVBCpEkAM07
-
-*YOUTUBE TUTORIALS* 🪄 
-https://youtube.com/@GlobalTechInfo
-
-*MEGA-MD--WHATSAPP-BOT* 🥀
+> ✎ *SESSION GENERATED SUCCESSFULLY* 
+> ⚑ *blaze session technology department* 
+                  ◥NYX◤
 `;
 
 async function removeFile(filePath) {
